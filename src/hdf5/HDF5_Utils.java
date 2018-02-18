@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -18,11 +19,9 @@ public class HDF5_Utils {
 	public static ArrayList<String> getFileNamesList(String path, String[] allowedSubFolders) {
 		 
 		final Path parent = Paths.get(path);
-		final ArrayList<String> fileNamesList = new ArrayList<String>();
-		final ArrayList<String> allowedFolders = new ArrayList<String>();
-		for(int i = 0; i < allowedSubFolders.length; i++) {
-			allowedFolders.add(allowedSubFolders[i]);
-		}
+		final ArrayList<String> fileNamesList = new ArrayList<>();
+		final ArrayList<String> allowedFolders = new ArrayList<>();
+		Collections.addAll(allowedFolders, allowedSubFolders);
 		
 		try 
 		{
@@ -34,23 +33,22 @@ public class HDF5_Utils {
 		        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {  
 		            
 		        	// Continue if this is the parent
-		        	if(parent.equals(dir)) {
+		        	if (parent.equals(dir)) {
 		        		return FileVisitResult.CONTINUE;
 		        	}
 		        	
 		        	// Check if the folder is in the allowed folders list. Skip if no allowed folders list
-		        	Boolean contains = (allowedFolders.size() == 0) ? true : false; 
-		        	for(String str : allowedFolders) {
+		        	Boolean contains = allowedFolders.size() == 0;
+		        	for (String str : allowedFolders) {
 		        		 
-		        		if(str.equalsIgnoreCase(dir.getFileName().toString())) {
-		        			 
+		        		if (str.equalsIgnoreCase(dir.getFileName().toString())) {
 		        			contains = true;
 		        			break;
 		        		}
 		        	}
 		        	 
 		        	// If folder belongs to allowed folder list, visit it, else skip it.
-		        	if(contains == true) {
+		        	if (contains) {
 		        		return FileVisitResult.CONTINUE;
 	            	} 
 		        	return FileVisitResult.SKIP_SUBTREE;
@@ -60,7 +58,7 @@ public class HDF5_Utils {
 		        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
 		                
 		            // If this is a h5 file
-		            if(FilenameUtils.getExtension(file.toString()).equals("h5")) {
+		            if (FilenameUtils.getExtension(file.toString()).equals("h5")) {
 		            	  
 		            	// Get the content of the file and keep it as a HDF5Object 
 		            	fileNamesList.add(file.toString()); 
@@ -84,11 +82,10 @@ public class HDF5_Utils {
 	
 	public static ArrayList<HDF5Object> getSongsFromArtist(String artist, ArrayList<HDF5Object> dataSource) {
 		
-		ArrayList<HDF5Object> list = new ArrayList<HDF5Object>();
-		for(int i = 0; i < dataSource.size(); i++) {
-			
-			HDF5Object object = dataSource.get(i);
-			if(object.artistName.equals(artist)) {
+		ArrayList<HDF5Object> list = new ArrayList<>();
+		for (HDF5Object object : dataSource) {
+
+			if (object.artistName.equals(artist)) {
 				list.add(object);
 			}
 		}
@@ -98,13 +95,13 @@ public class HDF5_Utils {
 	
 	public static ArrayList<HDF5FileSegments> getFileSegmentsList(ArrayList<String> fileList) throws Exception {
 
-		ArrayList<HDF5FileSegments> fileSegmentsList = new ArrayList<HDF5FileSegments>();
+		ArrayList<HDF5FileSegments> fileSegmentsList = new ArrayList<>();
 
-		for(int i = 0; i < fileList.size(); i++) {
+		for (String aFileList : fileList) {
 
-			H5File h5 = HDF5.hdf5_open_readonly(fileList.get(i));   
+			H5File h5 = HDF5.hdf5_open_readonly(aFileList);
 			HDF5FileSegments segment = new HDF5FileSegments(h5);
-			fileSegmentsList.add(segment); 
+			fileSegmentsList.add(segment);
 			h5.close();
 		}
 

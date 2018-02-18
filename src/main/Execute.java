@@ -3,8 +3,11 @@ package main;
 import libsvm.core.svm_model;
 import libsvm.core.svm_parameter;
 import libsvm.core.svm_problem;
- 
- 
+
+/**
+ * Note:
+ * - Need VM Option: -Djava.library.path=libs/
+ */
 public class Execute {
  
 	private svm_parameter param;		// set by parse_command_line
@@ -20,12 +23,11 @@ public class Execute {
 	 *  You can also specify allowed subfolders (only these folders will be opened). If this value is null,
 	 *  all subfolders will be traversed and used to create the training set.
 	 */
-	public String h5FilesPath = "MillionSongSubset/data/A/A/A/TRAAADZ128F9348C2E.h5";
-//	String[] allowedSubFolders = {"L", "M", "N"};
-	String[] allowedSubFolders = {};
+	private String h5FilesPath = "input/MillionSongSubset/data/A/A/A";
+//	private String[] allowedSubFolders = {"L", "M", "N"};
+	private String[] allowedSubFolders = {};
 	
 	public static void main(String[] args) throws Exception {
-		
 		Execute t = new Execute();
 		t.run(args); 
 	}
@@ -43,7 +45,7 @@ public class Execute {
 		 *  Output: train_file_name 
 		 */
 		IO_Utils.createTrainingSetFromFilesWithPath(h5FilesPath, train_file_name, allowedSubFolders);
-		
+
 		/*
 		 *  Read the input from the training file and keep it as an array of nodes with indexes.
 		 *  Use that array to train the svm machine and save the results in a model file.
@@ -52,7 +54,7 @@ public class Execute {
 		 *  Output: model_file_name
 		 */
 		prob = SVM_Interface.readProblem(train_file_name, param);
-		model = SVM_Interface.train(train_file_name, model_file_name, prob, param);
+		model = SVM_Interface.train(model_file_name, prob, param);
 		  
 		/*
 		 *  Execute prediction for test file based on the results from the training set that is saved 
@@ -67,7 +69,7 @@ public class Execute {
 		 *  Visualize the results as a XY chart.
 		 *  Input: result_file_name
 		 */
-		IO_Utils.visualiseResult(result_file_name);
+//		IO_Utils.visualiseResult(result_file_name);
 	} 
 	  
 }

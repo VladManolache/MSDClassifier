@@ -46,7 +46,6 @@ public class ResultsVisualiser extends JFrame {
 	 * Creates a sample dataset 
 	 * @throws IOException 
 	 */
-
 	private  XYSeriesCollection createDataset(String fileName) throws IOException {
 		 
 		// Create the dataset
@@ -54,20 +53,17 @@ public class ResultsVisualiser extends JFrame {
         XYSeries series = new XYSeries("XYGraph"); 
         
         // Add values for that dataset.
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        try { 
-            String line = br.readLine();
-            int i = 0;
-            
-            while (line != null) {
-            	series.add(i, (int)Double.parseDouble(line));
-            	i++;
-            	
-                line = br.readLine();
-            } 
-        } finally {
-            br.close();
-        }
+		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+			String line = br.readLine();
+			int i = 0;
+
+			while (line != null) {
+				series.add(i, (int) Double.parseDouble(line));
+				i++;
+
+				line = br.readLine();
+			}
+		}
 		
         // Add the series to your data set
         dataset.addSeries(series); 

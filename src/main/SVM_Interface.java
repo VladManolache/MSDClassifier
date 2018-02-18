@@ -23,21 +23,16 @@ public class SVM_Interface {
 		System.out.println(consoleSeparator);
 		System.out.println("\n    Reading problem ...\n");
 		
-		return SVM_Utils.read_problem(inputFileName, param);  
+		return SVM_Utils.read_problem(inputFileName, param);
 	}
 
-	public static svm_model train(String inputFileName, String modelFileName, svm_problem prob, svm_parameter param) throws IOException {
+	public static svm_model train(String modelFileName, svm_problem prob, svm_parameter param) throws IOException {
 
 		System.out.println(consoleSeparator);
 		System.out.println("\n    Building model from training file ...\n");
 		
 		// Disable printing in console.
-		svm_print_interface your_print_func = new svm_print_interface() { 
-			
-			public void print(String s) { 
-				
-			}
-		};
+		svm_print_interface your_print_func = s -> { };
 		svm.svm_set_print_string_function(your_print_func);
 		
 		svm_model theModel; 
@@ -53,7 +48,7 @@ public class SVM_Interface {
 		
 		BufferedReader input = new BufferedReader(new FileReader(inputFileName));
 		DataOutputStream output = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFileName)));
-		if(model == null) {
+		if (model == null) {
 			model = svm.svm_load_model(modelFileName);
 		}  
 		svm_predict.predict(input, output, model, 0);

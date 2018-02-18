@@ -24,15 +24,16 @@ public class IO_Utils {
 		
 		// Get list of files at provided path  
 		ArrayList<String> fileList = HDF5_Utils.getFileNamesList(path, allowedSubFolders);
-		System.out.println("Number of files: "+fileList.size()+"\n");
+		System.out.println("Number of files: " + fileList.size() + "\n");
 		
 		// Get song segments from each h5 file in the list.
 		ArrayList<HDF5FileSegments>fileSegmentsList = HDF5_Utils.getFileSegmentsList(fileList);   
-		System.out.println("Number of segments: "+fileSegmentsList.size()*fileSegmentsList.get(0).segments_confidence.length +"\n");
+		System.out.println("Number of segments: " + fileSegmentsList.size()*fileSegmentsList.get(0).segments_confidence.length + "\n");
 		
 		// Create a 'sparse' training set from the provided segments and write it in a file.
 		createInputFileFromSegments(fileSegmentsList, outputFileName);
-		System.out.println("Did create input file!\n");
+
+        System.out.println("Did create input file!\n");
 	}
 
 	private static void createInputFileFromSegments(ArrayList<HDF5FileSegments> fileSegmentsList, String outputFileName) throws FileNotFoundException {
@@ -43,42 +44,41 @@ public class IO_Utils {
 		Vector compressedVector;
 		Vector normalizedValues;
 
-		PrintWriter writer = new PrintWriter(outputFileName);  
-		for(int i = 0; i < fileSegmentsList.size(); i++) {
+		PrintWriter writer = new PrintWriter(outputFileName);
+        for (HDF5FileSegments aFileSegmentsList : fileSegmentsList) {
 
-			fileSegmentsObject = fileSegmentsList.get(i); 
-			for(int j = 0; j < fileSegmentsObject.segments_confidence.length; j++) {
+            fileSegmentsObject = aFileSegmentsList;
+            for (int j = 0; j < fileSegmentsObject.segments_confidence.length; j++) {
 
-				writer.write((j+1)+" ");
+                writer.write((j + 1) + " ");
 
-				values = new double[6];
-				values[0] = fileSegmentsObject.segments_confidence[j];
-				values[1] = fileSegmentsObject.segments_loudness_max[j];
-				values[2] = fileSegmentsObject.segments_loudness_max_time[j];
-				values[3] = fileSegmentsObject.segments_loudness_start[j];
-				values[4] = fileSegmentsObject.segments_pitches[j];
-				values[5] = fileSegmentsObject.segments_timbre[j]; 
+                values = new double[6];
+                values[0] = fileSegmentsObject.segments_confidence[j];
+                values[1] = fileSegmentsObject.segments_loudness_max[j];
+                values[2] = fileSegmentsObject.segments_loudness_max_time[j];
+                values[3] = fileSegmentsObject.segments_loudness_start[j];
+                values[4] = fileSegmentsObject.segments_pitches[j];
+                values[5] = fileSegmentsObject.segments_timbre[j];
 
-				compressedVector = new CompressedVector(values); 
-				normalizer = compressedVector.fold(Vectors.mkManhattanNormAccumulator()); 
-				normalizedValues = compressedVector.divide(normalizer);
+                compressedVector = new CompressedVector(values);
+                normalizer = compressedVector.fold(Vectors.mkManhattanNormAccumulator());
+                normalizedValues = compressedVector.divide(normalizer);
 
-				for(int k = 0; k < compressedVector.length(); k++) {
+                for (int k = 0; k < compressedVector.length(); k++) {
 
-					if(normalizedValues.get(i) != 0) {
-						writer.write((k+1)+":"+normalizedValues.get(k)+" ");
-					}  
-				} 
+                    if (normalizedValues.get(k) != 0) {
+                        writer.write((k + 1) + ":" + normalizedValues.get(k) + " ");
+                    }
+                }
 
-				writer.println(); 
-			}  
-		}  
+                writer.println();
+            }
+        }
 		writer.flush();
 		writer.close();  
 	}
 
 	public static void visualiseResult(String outputFileName) throws IOException {
-
 		ResultsVisualiser demo = new ResultsVisualiser("Results", "Here are the results...", outputFileName);
 		demo.pack();
 		demo.setVisible(true);

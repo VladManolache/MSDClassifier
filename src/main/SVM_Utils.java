@@ -98,7 +98,7 @@ public class SVM_Utils {
 	
 	private static double atof(String s) {
 
-		double d = Double.valueOf(s).doubleValue();
+		double d = Double.valueOf(s);
 		if (Double.isNaN(d) || Double.isInfinite(d)) {
 			
 			System.err.print("NaN or Infinity in input\n");
