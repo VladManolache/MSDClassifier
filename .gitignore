@@ -1,7 +1,2 @@
-model.txt
-result.txt
-train.txt
 jython-standalone-2.5.3.jar
-ParalelTrainingSet
-TestSet
-TrainingSet
+output
