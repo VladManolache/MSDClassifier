@@ -10,7 +10,7 @@ public class Configurations {
 	 *  4 - multi-threaded
 	 *  5 - multi-threaded, single flow
 	 */
-	public final static int runConfiguration = 4;
+	public final static int runConfiguration = 1;
 	
 	/*
 	 *  Use this to select what type of features to use.
@@ -43,18 +43,17 @@ public class Configurations {
 	
 	public final static Boolean clearInputData = true; 
 	
-	public final static String basePath = "output/";
-	private final static String baseDataSetPath = "input/MillionSongSubset/data/";
+	public final static String outputPath = "output/";
+	public final static String dataSetPath = "input/MillionSongSubset/data/";
 
 	/*
 	 *  Control size and ration of the training and test data sets.
 	 *  The path points to a folder, all of it's subfolders will be used unless allowedSubfolders are specified.
 	 *  The data inside of folder is split into training and data sets, the split is controlled by the ratio flag.
 	 */
-	public final static int maximumFiles = 100;	// !-- Negative values will disable this --!
+	public final static int maximumFiles = 500;	// !-- Negative values will disable this --!
 	public final static Boolean filterSubfolders = true;
-	public final static String dataSetPath = baseDataSetPath + "/";
-//	public final static String[] allowedSubfolders = {"A","B","C","D"}; 
+//	public final static String[] allowedSubfolders = {"A","B","C","D"};
 	public final static String[] allowedSubfolders = {}; 
 	public static double ratio = 9/10.0;
 	public static double trainingSetFolds = 7;

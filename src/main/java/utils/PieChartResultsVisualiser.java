@@ -12,11 +12,7 @@ import local.AccuracyCalculating;
 import local.TestSetGenreExtracting;
 import main.Configurations;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.*;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.ui.RefineryUtilities;
@@ -52,7 +48,7 @@ public class PieChartResultsVisualiser extends JFrame {
 		// Generate the graph
 		JFreeChart chart = createChart(dataset, chartTitle);
 		ChartFactory.setChartTheme(new StandardChartTheme("JFree/Shadow", true)); 
-		String result = "Classification accuracy: "+AccuracyCalculating.calculateTotalAccuracy(resultsFile)+"%";
+		String result = "Classification accuracy: " + AccuracyCalculating.calculateTotalAccuracy(resultsFile) + "%";
 		TextTitle source = new TextTitle(result, new Font("Courier New", Font.PLAIN, 12));
 		if (showPredictions) {
 			chart.addSubtitle(source);
@@ -67,8 +63,7 @@ public class PieChartResultsVisualiser extends JFrame {
 		// add it to our application
 		setContentPane(chartPanel); 
 	}
- 
- 
+
 	private DefaultPieDataset createDataset(String fileName, Boolean showPredictions) throws Exception {
 		  
 		DefaultPieDataset dataset = new DefaultPieDataset(); 
@@ -85,7 +80,7 @@ public class PieChartResultsVisualiser extends JFrame {
 		}
 		else {
 			ArrayList<Integer> values = TestSetGenreExtracting.run(); 
-			correspondingRow = new ArrayList<String>();
+			correspondingRow = new ArrayList<>();
 			int runConfiguration = Configurations.runConfiguration;
 			for (Integer value : values) {
 				if (runConfiguration != 1) {
@@ -101,14 +96,15 @@ public class PieChartResultsVisualiser extends JFrame {
         for(int i = 0; i < classesInResultsFile.size(); i++) {
         	currentClass = classesInResultsFile.get(i);
         	count = 0;
-        	for(int j = 0; j < correspondingRow.size(); j++) { 
-        		currentRow = correspondingRow.get(j);
-        		if(currentRow.equals(currentClass))
-        			count++;
-        	}
+			for (String aCorrespondingRow : correspondingRow) {
+				currentRow = aCorrespondingRow;
+				if (currentRow.equals(currentClass)) {
+					count++;
+				}
+			}
         	percentage = (count*1.0)/10;
         	
-        	if(Configurations.bootstrapMSD && Configurations.singleClassLabeling) { 
+        	if (Configurations.bootstrapMSD && Configurations.singleClassLabeling) {
         		dataset.setValue(BootstrapGenres.valueFromId(i), percentage);
         	}
         	else {  
@@ -138,7 +134,7 @@ public class PieChartResultsVisualiser extends JFrame {
 	private void saveChart(JFreeChart chart, String chartPath) {
 		 
       try {
-          ChartUtilities.saveChartAsJPEG(new File(chartPath), chart, 500, 300);
+          ChartUtils.saveChartAsJPEG(new File(chartPath), chart, 500, 300);
       } catch (IOException e) {
           System.err.println("Problem occurred creating chart.");
       }

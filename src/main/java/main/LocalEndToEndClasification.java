@@ -18,7 +18,9 @@ import local.multiThread.utils.MyThreadPoolExecutor;
 import local.singleThread.HDF5DataRetriever;
 import local.singleThread.LabelCombining;
 import local.voting.WeightedMajorityVoting;
+import utils.DifferenceChart;
 import utils.PieChartResultsVisualiser;
+import utils.ResultsData;
 import utils.Utils;
 import common.DataSplitter;
 import common.OneToManyClassifier;
@@ -92,11 +94,11 @@ public class LocalEndToEndClasification {
 			Utils.logConsoleSeparator();
 			Utils.logInfo("\nTest time in miliseconds: "+ (endTime-startTime)+"\n"); //Print the difference in miliseconds
 
-//			ResultsData.run(Constants.result_file_name+"_0");
-//			AccuracyCalculating.calculateAndPrintAccuracyStatistics(main.FilePaths.result_file_name+"_0");
+			ResultsData.run(FilePaths.result_file_name+"_0");
+			AccuracyCalculating.calculateAndPrintAccuracyStatistics(main.FilePaths.result_file_name+"_0");
 			PieChartResultsVisualiser.run(FilePaths.result_file_name+"_0", true);
 			PieChartResultsVisualiser.run(FilePaths.result_file_name+"_0", false);
-//			DifferenceChart.run(main.FilePaths.result_file_name+"_0");
+			DifferenceChart.run(main.FilePaths.result_file_name+"_0");
 		}
 		else if (runConfiguration == 2) {
 

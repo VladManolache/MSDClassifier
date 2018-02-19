@@ -13,11 +13,7 @@ import javax.swing.WindowConstants;
 import local.AccuracyCalculating;
 import main.Configurations;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtilities;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.*;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.title.TextTitle; 
 import org.jfree.data.xy.XYDataset;
@@ -165,7 +161,7 @@ public class DifferenceChart extends JFrame {
 	private void saveChart(JFreeChart chart, String chartPath) {
 		 
       try {
-          ChartUtilities.saveChartAsJPEG(new File(chartPath), chart, 500, 300);
+          ChartUtils.saveChartAsJPEG(new File(chartPath), chart, 500, 300);
       } catch (IOException e) {
           System.err.println("Problem occurred creating chart.");
       }

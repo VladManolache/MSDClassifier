@@ -7,16 +7,16 @@ public class FilePaths {
 	 *  You can also specify allowed subfolders (only these folders will be opened). If this value is null,
 	 *  all subfolders will be traversed and used to create the training set.
 	 */
-	public final static String trainingDataPath = Configurations.basePath + "TrainingSet";
-	public final static String parallelTrainingDataPath = Configurations.basePath + "ParallelTrainingSet";
-	public final static String scaledTrainingSetPath = Configurations.basePath + "ScaledTrainingSet";
-	public final static String testSetPath = Configurations.basePath + "TestSet";
-	public final static String scaledTestSetPath = Configurations.basePath + "ScaledTestSet";
-	public final static String tmpDatSetPath = Configurations.basePath + "TmpSet";
-	public final static String modelSetPath = Configurations.basePath + "ModelSet";
-	public final static String scalingRangePath = Configurations.basePath + "DataRange";
-	public final static String hadoopOutput = Configurations.basePath + "Output";
-	public final static String resultSetPath = Configurations.basePath + "ResultSet";
+	public final static String trainingDataPath = Configurations.outputPath + "TrainingSet";
+	public final static String parallelTrainingDataPath = Configurations.outputPath + "ParallelTrainingSet";
+	public final static String scaledTrainingSetPath = Configurations.outputPath + "ScaledTrainingSet";
+	public final static String testSetPath = Configurations.outputPath + "TestSet";
+	public final static String scaledTestSetPath = Configurations.outputPath + "ScaledTestSet";
+	public final static String tmpDatSetPath = Configurations.outputPath + "TmpSet";
+	public final static String modelSetPath = Configurations.outputPath + "ModelSet";
+	public final static String scalingRangePath = Configurations.outputPath + "DataRange";
+	public final static String hadoopOutput = Configurations.outputPath + "Output";
+	public final static String resultSetPath = Configurations.outputPath + "ResultSet";
 	
 	/*
 	 * All file paths related to SVM and Hadoop execution.

@@ -1,5 +1,8 @@
-import sys, os.path
+#!/usr/bin/env python
+
+import os.path
 from string import *
+
 
 def read_first_column(file):
     obj = []
@@ -15,6 +18,7 @@ def read_first_column(file):
     in_file.close()
     return obj
 
+
 def measure(__original, __predict, __labels):
     """
     Return exact match ratio, microaverage F-measure, and macroaverage F-measure.
@@ -26,7 +30,7 @@ def measure(__original, __predict, __labels):
     for i in range(len(__predict)):
         __original[i].sort()
         __predict[i].sort()
-        if(__original[i] == __predict[i]):
+        if __original[i] == __predict[i]:
             ratio = ratio+1
 
     result.append(float(ratio)/len(__predict))
@@ -44,27 +48,27 @@ def measure(__original, __predict, __labels):
         tn = 0
 
         for i in range(len(__predict)):
-            if (j in __original[i] and j in __predict[i]):
+            if j in __original[i] and j in __predict[i]:
                 tp = tp + 1
-            elif (j not in __original[i] and j in __predict[i]):
+            elif j not in __original[i] and j in __predict[i]:
                 fp = fp + 1
-            elif (j in __original[i] and j not in __predict[i]):
+            elif j in __original[i] and j not in __predict[i]:
                 fn = fn + 1
             else:
                 tn = tn + 1
 
         # 0/0 is treated as 0 and #labels does *not* reduced
-        if (tp != 0 or fp != 0 or fn != 0):
-            F = F+float(2*tp)/float(2*tp+fp+fn)
+        if tp != 0 or fp != 0 or fn != 0:
+            F = F + float(2*tp) / float(2*tp+fp+fn)
 
         tp_sum = tp_sum + tp
         fp_sum = fp_sum + fp
         fn_sum = fn_sum + fn
 
-    P = float(tp_sum)/float(tp_sum+fp_sum)
-    R = float(tp_sum)/float(tp_sum+fn_sum)
+    P = float(tp_sum) / float(tp_sum+fp_sum)
+    R = float(tp_sum) / float(tp_sum+fn_sum)
 
     result.append(2*P*R/(P+R))
-    result.append(F/len(__labels))
+    result.append(F / len(__labels))
 
     return result
